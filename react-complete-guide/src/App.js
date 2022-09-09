@@ -15,7 +15,7 @@ function App() {
       {/* 소문자로 시작 - html */}
       <h2>Let's get started!</h2>
       {/* 대문자로 시작 - 컴포넌트 */}
-      <ExpenseItem></ExpenseItem>
+      <ExpenseItem title={expenses[0].title} amount ={expenses[0].amoount} date={expenses[0].date}></ExpenseItem>
     </div>
   );
 }
