@@ -5,7 +5,7 @@ function App() {
     {
       id: "e1",
       title: "Car Insurance",
-      amoount: 294.67,
+      amount: 294.67,
       date: new Date(2022, 2, 20),
     },
   ];
