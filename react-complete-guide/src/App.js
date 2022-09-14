@@ -15,7 +15,7 @@ function App() {
       {/* 소문자로 시작 - html */}
       <h2>Let's get started!</h2>
       {/* 대문자로 시작 - 컴포넌트 */}
-      <Expenses expenses={expenses} />
+      <Expenses items={expenses} />
     </div>
   );
 }
