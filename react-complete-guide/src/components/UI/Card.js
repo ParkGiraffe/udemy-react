@@ -4,7 +4,7 @@ import "./Card.css";
 
 function Card(props) {
   // className에 들어갈 String을 따로 빼주면, 커스텀 컴포넌트에서도 className props를 설정해줄 수 있다.
-  const classes = 'card ' + props.className
+  const classes = "card " + props.className;
   return <div className={classes}>{props.children}</div>;
 }
 
