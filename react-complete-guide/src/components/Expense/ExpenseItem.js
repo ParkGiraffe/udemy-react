@@ -3,7 +3,7 @@ import Card from "../UI/Card";
 import "./ExpenseItem.css";
 
 // 리액트에서는 모든 props를 담은 하나의 매개변수만을 사용한다.(key:value 값으로 된 데이터를 리액트에서 자동으로 전달한다.) 이를 관용적으로 props라고 짓는다.
-function ExpenseItem(props) {
+const ExpenseItem = props => {
 
   return (
     // 컴포넌트에서 jsx를 return할 때는 반드시 한 개의 루트 요소를 가진다. 그래서 <div></div>로 전체를 하나로 묶었다.
@@ -21,6 +21,6 @@ function ExpenseItem(props) {
       </div>
     </Card>
   );
-}
+};
 
 export default ExpenseItem;
