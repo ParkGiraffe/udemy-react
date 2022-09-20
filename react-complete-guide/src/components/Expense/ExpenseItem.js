@@ -5,10 +5,13 @@ import "./ExpenseItem.css";
 // 리액트에서는 모든 props를 담은 하나의 매개변수만을 사용한다.(key:value 값으로 된 데이터를 리액트에서 자동으로 전달한다.) 이를 관용적으로 props라고 짓는다.
 const ExpenseItem = (props) => {
 
+  let title = props.title;
   // 핸들러 함수명 관례 : 트리거 이벤트 + handler
   const clickHandler = () => {
-    console.log('clicked');
+    title = 'Updated';
+    console.log(title) // title 변수 값은 변경되어있지만, DOM에는 변경사항이 반영되어 있지 않는다. 왜냐하면 react는 jsx로 이루어진 컴포넌트를 실행하면서 DOM을 생성하는데, 이런 방식의 update는 jsx 컴포넌트를 새로 생성하지 (덮어 씌우지) 않기 때문이다. 이 문제를 해결하기 위해 react는 state 개념을 도입한다.
   };
+  
 
   return (
     // 컴포넌트에서 jsx를 return할 때는 반드시 한 개의 루트 요소를 가진다. 그래서 <div></div>로 전체를 하나로 묶었다.
@@ -18,7 +21,7 @@ const ExpenseItem = (props) => {
       {/* jsx에서는 html의 class 명을 지을 때 class가 아닌 className을 사용해서 class명을 짓는다. (왜냐하면 class가 js에서 예약어기 때문이다.) */}
       <ExpenseDate date={props.date} />
       <div className="expense-item__description">
-        <h2>{props.title}</h2>
+        <h2>{title}</h2>
         <div className="expense-item__price">
           {/* jsx 안에 중괄호를 사용하면 일반 자바스크립트 구문을 사용할 수 있다. */}
           ${props.amount}
