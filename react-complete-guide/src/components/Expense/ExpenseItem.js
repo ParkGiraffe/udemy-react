@@ -1,15 +1,30 @@
+import { useState } from "react";
+// react hooks을 불러오기 위해서 react에서 import 해온다.
+
 import ExpenseDate from "./ExpenseDate";
 import Card from "../UI/Card";
 import "./ExpenseItem.css";
 
 // 리액트에서는 모든 props를 담은 하나의 매개변수만을 사용한다.(key:value 값으로 된 데이터를 리액트에서 자동으로 전달한다.) 이를 관용적으로 props라고 짓는다.
 const ExpenseItem = (props) => {
+  // react 훅들은 단어가 use로 시작되어서 알기 쉽다. 그리고 react 훅들은 모두 컴포넌트 선언 함수 안에서 쓰여야 한다. 한가지 예외가 존재하긴 한다. (나중에 강의에서 설명 예정)
+  // useState를 통해서 특별한 종류의 변수를 생성한다. 이 변수에 변경사항이 생기면 컴포넌트 함수가 다시 호출되도록 한다. 이 특별한 변수에 useState 인자를 전달해서 초기값을 할당할 수 있다.
+  // 그리고 특별한 변수에 새로운 값을 할당하기 위해 우리가 호출할 수 있는 함수도 반환한다.
+  // 정리 : useState는 배열을 반환하는데, 첫 번째는 변수 자체, 두 번째는 업데이트 함수를 반환한다. 이를 배열 비구조화를 이용해서 사용한다. [currentStateValue, UpdateFunctionValue]
+  // 이름짓기 관행 : 어떤 값인지 알 수 있는 이름, set을 붙여서 업데이트 함수 짓기
+  const [title, setTitle] = useState(props.title);
 
-  let title = props.title;
+
+
+
+  // let title = props.title;
   // 핸들러 함수명 관례 : 트리거 이벤트 + handler
   const clickHandler = () => {
-    title = 'Updated';
+    // title = 'Updated';
+    setTitle('Updated!'); // 왜 새로운 값을 할당하는 게 아니라 set함수를 사용하는 것일까? set함수를 불러옴으로써 useState에 변경된 변수를 새롭게 넣어서 DOM을 출력해야 한다고 신호를 보내고, 그렇게 다시 JSX코드를 실행하기 때문이다.
     console.log(title) // title 변수 값은 변경되어있지만, DOM에는 변경사항이 반영되어 있지 않는다. 왜냐하면 react는 jsx로 이루어진 컴포넌트를 실행하면서 DOM을 생성하는데, 이런 방식의 update는 jsx 컴포넌트를 새로 생성하지 (덮어 씌우지) 않기 때문이다. 이 문제를 해결하기 위해 react는 state 개념을 도입한다.
+
+    // setTitle()을 하고나서 console로 title을 바로 찍어보면, 여전히 이전 값을 나타내고 있다. (== 변경된 사항이 아직 적용이 안 되고 있다.) 왜냐하면 바로 값을 바꾸지 않고 state의 업데이트를 예약하기 때문이다. - 비동기처리 - 요청사항은 이벤트 핸들러가 종료되고 react에 의해서 효율적으로 상태가 갱신된다. 한 핸들러 안에 setState가 여러 개 있을 경우, 전부 스케쥴에 집어 넣은 후 한 번에 처리함으로써 여러 번 렌더링 할 거를 한 번으로 줄인다.
   };
   
 
