@@ -14,6 +14,7 @@ const ExpenseItem = (props) => {
   // 이름짓기 관행 : 어떤 값인지 알 수 있는 이름, set을 붙여서 업데이트 함수 짓기
   const [title, setTitle] = useState(props.title);
 
+  // 'const' 키워드를 사용해도 되는 이유 : title에 '='연산자를 이용해서 값을 할당하지 않는다. 오로지 setTitle()을 이용해서만 변경한다. setTitle()은 해당 컴포넌트를 바뀐 값(최신 state)에 기반하여 새로 실행한다. 그래서 상수형으로 써도 된다. 그리고 title에 '='연산자로 재할당하는 오류를 범하지 않기 위해서 상수로 선언해준다.
 
 
 
