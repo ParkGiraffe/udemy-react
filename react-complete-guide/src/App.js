@@ -1,5 +1,5 @@
 import Expenses from "./components/Expense/Expenses";
-
+import NewExpense from "./components/NewExpense/NewExpense";
 const App = () => {
   const expenses = [
     {
@@ -14,6 +14,7 @@ const App = () => {
     <div>
       {/* 소문자로 시작 - html */}
       <h2>Let's get started!</h2>
+      <NewExpense />
       {/* 대문자로 시작 - 컴포넌트 */}
       <Expenses items={expenses} />
     </div>
