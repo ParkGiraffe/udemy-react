@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ExpenseForm.css";
 
 const ExpenseForm = () => {
-  const titleChangeHandler = () => {
-    console.log('Title changed!');
+  const [enteredTitle, setEnteredTitle] = useState("");
+  const [enteredAmount, setEnteredAmount] = useState("");
+  const [enteredDate, setEnteredDate] = useState("");
+  // 한 컴포넌트에 여러 개의 state를 가져도 각자 개별적으로 잘 동작한다.
+
+  const titleChangeHandler = (event) => {
+    // onChange는 핸들러에 event object를 전달한다. event 안에는 여러 property가 존재하는데, 그중에서 target 필드가 있다. target은 이벤트가 발생하는 DOM을 가리키고, 그 안의 value 필드에는 사용자가 입력한 값이 담겨 있다.
+    setEnteredTitle(event.target.value);
+    // 바뀐 값을 저장하기 위해 setState를 사용한다. 이러한 방식으로 저장을 하면 컴포넌트 함수의 수명 주기와는 별개로 변수를 저장할 수 있게 된다. 그래서 이 컴포넌트 함수가 얼마나 자주 다시 실행되는 지에 상관 없이 이 state는 저장되고 살아 있다.
+  };
+
+  const amountChangeHandler = (event) => {
+    setEnteredAmount(event.target.value);
+  };
+
+  const dateChangeHandler = (event) => {
+    setEnteredAmount(event.target.value);
   };
 
   return (
@@ -16,11 +31,21 @@ const ExpenseForm = () => {
         </div>
         <div className="new-expense__control">
           <label>Amount</label>
-          <input type="number" min="0.01" step="0.01" />
+          <input
+            type="number"
+            min="0.01"
+            step="0.01"
+            onChange={amountChangeHandler}
+          />
         </div>
         <div className="new-expense__control">
           <label>Date</label>
-          <input type="Date" min="2019-01-01" max="2022-12-31" />
+          <input
+            type="Date"
+            min="2019-01-01"
+            max="2022-12-31"
+            onChange={dateChangeHandler}
+          />
         </div>
       </div>
       <div className="newExpense__actions">
