@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ExpenseForm.css";
 
-const ExpenseForm = () => {
+const ExpenseForm = (props) => {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredAmount, setEnteredAmount] = useState("");
   const [enteredDate, setEnteredDate] = useState("");
@@ -53,7 +53,7 @@ const ExpenseForm = () => {
       date: new Date(enteredDate),
     };
 
-    console.log(expenseDate);
+    props.onSaveExpenseData(expenseDate);
 
     // 여기에서 state가 재설정되면, input의 value도 state의 변경을 입력받아서 DOM을 업데이트한다.
     setEnteredTitle("");
