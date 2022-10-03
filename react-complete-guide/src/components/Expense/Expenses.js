@@ -11,6 +11,10 @@ const Expenses = (props) => {
     setFilteredYear(selectedYear);
   };
 
+  const filteredExpenses = props.items.filter((expense) => {
+    return expense.date.getFullYear().toString() === filteredYear;
+  });
+
   return (
     <div>
       <Card className="expenses">
@@ -20,7 +24,7 @@ const Expenses = (props) => {
         />
 
         {/*JS에 내장된 Array.prototype.map()을 이용해서 Array로 이루어진 Props를 한 번에 컴포넌트에 렌더링할 수 있다. map() array를 리턴하는데, 리액트는 jsx(컴포넌트)로 이루어진 array를 자동으로 나란히 렌더링해준다. */}
-        {props.items.map((expense) => (
+        {filteredExpenses.map((expense) => (
           <ExpenseItem
             key={expense.id}
             title={expense.title}
@@ -28,11 +32,6 @@ const Expenses = (props) => {
             date={expense.date}
           />
         ))}
-        <ExpenseItem
-          title={props.items[0].title}
-          amount={props.items[0].amount}
-          date={props.items[0].date}
-        />
       </Card>
     </div>
   );
