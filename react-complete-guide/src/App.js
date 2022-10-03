@@ -8,6 +8,18 @@ const App = () => {
       amount: 294.67,
       date: new Date(2022, 2, 20),
     },
+    {
+      id: "e2",
+      title: "Car Insurance",
+      amount: 294.78,
+      date: new Date(2022, 2, 20),
+    },
+    {
+      id: "e3",
+      title: "Car Insurance",
+      amount: 294.89,
+      date: new Date(2022, 2, 20),
+    },
   ];
 
   const addExpenseHanlder = (expense) => {
