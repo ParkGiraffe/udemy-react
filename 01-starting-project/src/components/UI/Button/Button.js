@@ -14,9 +14,9 @@
 //     width: auto;
 //   }
 
-//   &:focus {
-//     outline: none;
-//   }
+  // &:focus {
+  //   outline: none;
+  // }
 
 //   &:hover,
 //   &:active {
