@@ -16,11 +16,22 @@ const emailReducer = (state, action) => {
   return { value: "", isValid: false };
 };
 
+const passwordReducer = (state, action) => {
+  if (action.type === "USER_INPUT") {
+    return { value: action.val, isValid: action.val.trim().length > 6 };
+  }
+  if (action.type === "INPUT_BLUR") {
+    return { value: state.value, isValid: state.value.trim().length > 6 };
+  }
+  return { value: "", isValid: false };
+};
+
+
 const Login = (props) => {
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [emailIsValid, setEmailIsValid] = useState();
-  const [enteredPassword, setEnteredPassword] = useState("");
-  const [passwordIsValid, setPasswordIsValid] = useState();
+  // const [enteredEmail, setEnteredEmail] = useState("");
+  // const [emailIsValid, setEmailIsValid] = useState();
+  // const [enteredPassword, setEnteredPassword] = useState("");
+  // const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
 
   const [email, dispatchEmail] = useReducer(emailReducer, {
@@ -28,44 +39,55 @@ const Login = (props) => {
     isValid: null,
   });
 
-  // useEffect(() => {
-  //   // setTimeout을 식별자(identifier)변수에 저장한 후, 브라우저 내장함수인 cleartimeout을 사용하여 setTimeout을 지울 수 있다. 0.5초 안에 value가 입력이 되면 setTimeout이 지워지기 때문에, useEffect의 의존성 변경에 따라 다시 처음부터 setTimeout이 실행되어 0.5초를 센다.
-  //   const identifier = setTimeout(() => {
-  //     console.log("Checking form validity!");
-  //     setFormIsValid(
-  //       enteredEmail.includes("@") && enteredPassword.trim().length > 6
-  //     );
-  //   }, 500);
-  //   // 타이핑 시 작동 순서 : cleanup 콘솔이 뜬 이후에 'checkig form validity'가 뜬다.
+  const [password, dispatchPassword] = useReducer(passwordReducer, {
+    value: "",
+    isValid: null,
+  });
 
-  //   // 사용자가 다 입력한 후 유효성 검사 : 디바운싱이라고 표현. 사용자 입력을 디바운스(그룹화)
-  //   return () => {
-  //     console.log("CLEANUP");
-  //     clearTimeout(identifier);
-  //   };
-  // }, [enteredEmail, enteredPassword]);
 
+  const { isValid: emailIsValid } = email;
+  const { isValid: passwordIsValid } = password;
+
+  useEffect(() => {
+    // setTimeout을 식별자(identifier)변수에 저장한 후, 브라우저 내장함수인 cleartimeout을 사용하여 setTimeout을 지울 수 있다. 0.5초 안에 value가 입력이 되면 setTimeout이 지워지기 때문에, useEffect의 의존성 변경에 따라 다시 처음부터 setTimeout이 실행되어 0.5초를 센다.
+    const identifier = setTimeout(() => {
+      console.log("Checking form validity!");
+      setFormIsValid(
+        emailIsValid && passwordIsValid
+      );
+    }, 500);
+    // 타이핑 시 작동 순서 : cleanup 콘솔이 뜬 이후에 'checkig form validity'가 뜬다.
+
+    // 사용자가 다 입력한 후 유효성 검사 : 디바운싱이라고 표현. 사용자 입력을 디바운스(그룹화)
+    return () => {
+      console.log("CLEANUP");
+      clearTimeout(identifier);
+    };
+  }, [emailIsValid, passwordIsValid]); // useEffect의 의존성 배열에 emailIsValid와 passwordIsValid를 넣어주면, 이 두 값이 변경될 때마다 useEffect가 실행된다. 비구조화를 하지 않으면, 원형 state인 email과 password가 변경될 때마다 useEffect가 실행된다. -> 이미 valid상태임에도 불구하고 입력이 바뀔 때마다 useEffect가 실행된다. 이를 방지하기 위해 비구조화를 해준다.
+
+  // input이 바뀔 때마다 실행되는 함수
   const emailChangeHandler = (event) => {
     dispatchEmail({ type: "USER_INPUT", val: event.target.value });
-
-    setFormIsValid(event.target.value.includes("@") && passwordIsValid);
   };
 
   const passwordChangeHandler = (event) => {
-    setEnteredPassword(event.target.value);
+    dispatchPassword({ type: "USER_INPUT", val: event.target.value });
   };
 
+  // Blur : 포커스를 잃을 때
   const validateEmailHandler = () => {
     dispatchEmail({ type: "INPUT_BLUR" });
   };
 
   const validatePasswordHandler = () => {
-    setPasswordIsValid(enteredPassword.trim().length > 6);
+    dispatchEmail({ type: "INPUT_BLUR" });
   };
 
+
+  // form submit
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(enteredEmail, enteredPassword);
+    props.onLogin(email.value, enteredPassword);
   };
 
   return (
@@ -73,7 +95,7 @@ const Login = (props) => {
       <form onSubmit={submitHandler}>
         <div
           className={`${classes.control} ${
-            email.isValid === false ? classes.invalid : ""
+            emailIsValid === false ? classes.invalid : ""
           }`}
         >
           <label htmlFor="email">E-Mail</label>
