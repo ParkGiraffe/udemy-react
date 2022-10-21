@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer, useContext } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+import AuthContext from "../../store/auth-context";
 
 const emailReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
@@ -48,6 +49,9 @@ const Login = (props) => {
   const { isValid: emailIsValid } = email;
   const { isValid: passwordIsValid } = password;
 
+  const authCtx = useContext(AuthContext);
+
+
   useEffect(() => {
     // setTimeout을 식별자(identifier)변수에 저장한 후, 브라우저 내장함수인 cleartimeout을 사용하여 setTimeout을 지울 수 있다. 0.5초 안에 value가 입력이 되면 setTimeout이 지워지기 때문에, useEffect의 의존성 변경에 따라 다시 처음부터 setTimeout이 실행되어 0.5초를 센다.
     const identifier = setTimeout(() => {
@@ -87,7 +91,7 @@ const Login = (props) => {
   // form submit
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(email.value, enteredPassword);
+    authCtx.onLogin(email.value, password.value);
   };
 
   return (
@@ -116,7 +120,7 @@ const Login = (props) => {
           <input
             type="password"
             id="password"
-            value={enteredPassword}
+            value={password.value}
             onChange={passwordChangeHandler}
             onBlur={validatePasswordHandler}
           />
