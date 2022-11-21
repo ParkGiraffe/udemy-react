@@ -20,3 +20,5 @@ class ErrorBound extends Component {
     return this.props.children;
   }
 }
+
+export default ErrorBound;
