@@ -7,6 +7,10 @@ function App() {
   const [isLoading, setIsLoading] = useState(false); // 로딩 중 여부 확인
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    fetchMoviesHandler();
+  }, []); // 의존성 배열이 비어있으면, 컴포넌트 함수가 최초로 로딩될 때 빼고는 절대 재실행되지 않는다.
+
   async function fetchMoviesHandler() {
     setIsLoading(true);
     setError(null);
