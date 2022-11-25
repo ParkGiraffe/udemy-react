@@ -7,36 +7,38 @@ function App() {
   const [isLoading, setIsLoading] = useState(false); // 로딩 중 여부 확인
   const [error, setError] = useState(null);
 
+  const fetchMoviesHandler = useCallback(async () => {
+    {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await fetch("https://swapi.dev/api/films");
+
+        if (!response.ok) {
+          throw new Error("Something went wrong!");
+        }
+
+        const data = await response.json();
+
+        const transformedMovies = data.results.map((movie) => {
+          return {
+            id: movie.episode_id,
+            title: movie.title,
+            openingText: movie.opening_crawl,
+            releaseDate: movie.release_date,
+          };
+        });
+        setMovies(transformedMovies);
+      } catch (error) {
+        setError(error.message);
+      }
+      setIsLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     fetchMoviesHandler();
-  }, []); // 의존성 배열이 비어있으면, 컴포넌트 함수가 최초로 로딩될 때 빼고는 절대 재실행되지 않는다.
-
-  async function fetchMoviesHandler() {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch("https://swapi.dev/api/films");
-
-      if (!response.ok) {
-        throw new Error("Something went wrong!");
-      }
-
-      const data = await response.json();
-
-      const transformedMovies = data.results.map((movie) => {
-        return {
-          id: movie.episode_id,
-          title: movie.title,
-          openingText: movie.opening_crawl,
-          releaseDate: movie.release_date,
-        };
-      });
-      setMovies(transformedMovies);
-    } catch (error) {
-      setError(error.message);
-    }
-    setIsLoading(false);
-  }
+  }, [fetchMoviesHandler]);
 
   let content = <p>Found no movies.</p>;
 
