@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 
 const AvailableMeals = () => {
   const [meals, setMeals] = useState([]);
-  const [isloading, setIsLoading] = useState(true); // 어차피 앱이 실행되자마자 바로 백엔드에서 데이터를 가져오기 때문에, 초기값을 true로 줘버려도 상관을 없을 경우가 있다.
+  const [isLoading, setIsLoading] = useState(true); // 어차피 앱이 실행되자마자 바로 백엔드에서 데이터를 가져오기 때문에, 초기값을 true로 줘버려도 상관을 없을 경우가 있다.
+  const [httpError, setHttpError] = useState();
 
   // useEffect의 콜백함수에 바로 async를 적용하는 것은 금지! - 허용되지 않는 작업이다.
   useEffect(() => {
@@ -13,6 +14,11 @@ const AvailableMeals = () => {
       const response = await fetch(
         "https://react-http-6e4f6-default-rtdb.firebaseio.com/meals.json"
       );
+
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+
       const responseData = await response.json();
 
       const loadedMeals = [];
@@ -29,13 +35,26 @@ const AvailableMeals = () => {
       setIsLoading(false);
     };
 
-    fetchMeals(); // useEffect 내부에 async/await 함수를 만들고 호출하는 꼼수를 사용하면 된다.
+    // useEffect 내부에 async/await 함수를 만들고 호출하는 꼼수를 사용하면 된다.
+    fetchMeals().catch((err) => {
+      setHttpError(err.message);
+    });
   }, []);
 
-  if (isloading) {
-    return <section className={classes.MealsLoading}>
-      <p>Loading...</p>
-    </section>
+  if (isLoading) {
+    return (
+      <section className={classes.MealsLoading}>
+        <p>Loading...</p>
+      </section>
+    );
+  }
+
+  if (httpError) {
+    return (
+      <section className={classes.MealsError}>
+        <p>{httpError}</p>
+      </section>
+    );
   }
 
   const mealsList = meals.map((meal) => (
