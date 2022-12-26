@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import classes from "./Checkout.module.css";
 
-const isEmpty = (value) => value.trim() !== "";
+const isNotEmpty = (value) => value.trim() !== "";
 const isFiveChars = (value) => value.trim().length === 5;
 
 const Checkout = (props) => {
@@ -25,10 +25,10 @@ const Checkout = (props) => {
     const enteredPostalCode = postalCodeInputRef.current.value;
     const enteredCity = cityInputRef.current.value;
 
-    const enteredNameIsValid = !isEmpty(enteredName);
-    const enteredStreetIsValid = !isEmpty(enteredStreet);
-    const enteredCityIsValid = !isEmpty(enteredCity);
-    const enteredPostalCodeIsValid = !isFiveChars(enteredPostalCode);
+    const enteredNameIsValid = isNotEmpty(enteredName);
+    const enteredStreetIsValid = isNotEmpty(enteredStreet);
+    const enteredCityIsValid = isNotEmpty(enteredCity);
+    const enteredPostalCodeIsValid = isFiveChars(enteredPostalCode);
 
     setFormInputsValidity({
       name: enteredNameIsValid,
