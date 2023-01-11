@@ -17,10 +17,10 @@ const counterSlice = createSlice({
       state.counter--;
     },
     increase(state, action) {
-      state.counter += action.amount;
+      state.counter += action.payload;
     },
     toggle(state) {
-      state.showCounter = !showCounter;
+      state.showCounter = !state.showCounter;
     },
   },
 });
@@ -33,11 +33,11 @@ const authSlice = createSlice({
   name: "authentication",
   initialState: initialAuthState,
   reducers: {
-    login() {
-      isAuthenticated = true;
+    login(state) {
+      state.isAuthenticated = true;
     },
-    logout() {
-      isAuthenticated = false;
+    logout(state) {
+      state.isAuthenticated = false;
     },
   },
 });

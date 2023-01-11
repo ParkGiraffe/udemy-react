@@ -3,22 +3,22 @@ import { counterActions } from "../store";
 import classes from "./Counter.module.css";
 
 const Counter = () => {
+  const dispatch = useDispatch();
   const counter = useSelector((state) => state.counter.counter);
   const show = useSelector((state) => state.counter.showCounter);
 
-  // const dispatch = useDispatch();
   const incrementHandler = () => {
-    counterActions.increment()
+    dispatch(counterActions.increment());
   };
   const decrementHandler = () => {
-    counterActions.decrement()
+    dispatch(counterActions.decrement());
   };
   const increaseHandler = () => {
-    counterActions.increase(10)
+    dispatch(counterActions.increase(10));
   };
 
   const toggleCounterHandler = () => {
-    counterActions.toggle()
+    dispatch(counterActions.toggle());
   };
 
   return (
