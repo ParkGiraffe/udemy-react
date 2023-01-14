@@ -1,8 +1,13 @@
 const Products = () => {
   return (
-    <div>
-      <h2>Products Page</h2>
-    </div>
+    <section>
+      <h1>The Products Page</h1>
+      <ul>
+        <li>A Book</li>
+        <li>A Carpet</li>
+        <li>An Online Courses</li>
+      </ul>
+    </section>
   );
 };
 
