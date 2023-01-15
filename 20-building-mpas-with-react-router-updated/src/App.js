@@ -7,14 +7,14 @@ import Welcome from "./pages/Welcome";
 function App() {
   return (
     <div>
-      <MainHeader/>
+      <MainHeader />
       <Route path="/welcome">
         <Welcome />
       </Route>
       <Route path="/products">
         <Products />
       </Route>
-      <Route path='./product-detail/:productId'>
+      <Route path="/product-detail/:productId">
         <ProductDetail />
       </Route>
     </div>
