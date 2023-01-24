@@ -6,6 +6,7 @@ const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+  const [isLoading, setIsLoading] = useState(false)
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -19,6 +20,7 @@ const AuthForm = () => {
 
     // optional : Add 이메일과 비밀번호의 유효성 검증
 
+    setIsLoading(true)
     if (isLogin) {
     } else {
       fetch(
@@ -35,13 +37,15 @@ const AuthForm = () => {
           },
         }
       ).then((res) => {
+        setIsLoading(false)
         if (res.ok) {
           // ..
         } else {
           // 문제가 생겼을 때 문제를 확인하기 위한 코드
           return res.json().then((data) => {
-            // show an error modal
-            console.log(data);
+            // // show an error modal
+            // console.log(data);
+            alert("Authentication Failed!");
           });
         }
       });
@@ -66,7 +70,8 @@ const AuthForm = () => {
           />
         </div>
         <div className={classes.actions}>
-          <button>{isLogin ? "Login" : "Create Account"}</button>
+          {!isLoading && <button>{isLogin ? "Login" : "Create Account"}</button>}
+          {isLoading && <p>Sending Request...</p>}
           <button
             type="button"
             className={classes.toggle}
