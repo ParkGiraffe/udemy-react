@@ -2,11 +2,13 @@ import { useRef, useState } from "react";
 
 import classes from "./AuthForm.module.css";
 
+const API_KEY = "AIzaSyC4fWbs5or5ip_meP9zzf1dAoGpSJ8CmSM";
+
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -20,36 +22,42 @@ const AuthForm = () => {
 
     // optional : Add 이메일과 비밀번호의 유효성 검증
 
-    setIsLoading(true)
-    if (isLogin) {
+    setIsLoading(true);
+
+    let url = "";
+
+    if (!isLogin) {
+      url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
     } else {
-      fetch(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC4fWbs5or5ip_meP9zzf1dAoGpSJ8CmSM`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            email: enteredEmail,
-            password: enteredPassword,
-            returnSecureToken: true,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      ).then((res) => {
-        setIsLoading(false)
+      url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
+    }
+
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        email: enteredEmail,
+        password: enteredPassword,
+        returnSecureToken: true,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        setIsLoading(false);
         if (res.ok) {
-          // ..
+          return res.json();
         } else {
-          // 문제가 생겼을 때 문제를 확인하기 위한 코드
           return res.json().then((data) => {
-            // // show an error modal
-            // console.log(data);
-            alert("Authentication Failed!");
+            let errorMessage = "Authentication Failed!";
+            throw new Error(errorMessage);
           });
         }
-      });
-    }
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => alert(err));
   };
 
   return (
@@ -70,7 +78,9 @@ const AuthForm = () => {
           />
         </div>
         <div className={classes.actions}>
-          {!isLoading && <button>{isLogin ? "Login" : "Create Account"}</button>}
+          {!isLoading && (
+            <button>{isLogin ? "Login" : "Create Account"}</button>
+          )}
           {isLoading && <p>Sending Request...</p>}
           <button
             type="button"
