@@ -5,8 +5,13 @@ import AuthContext from "../../store/auth-context";
 import classes from "./MainNavigation.module.css";
 
 const MainNavigation = () => {
-  const authCtx = useContext(AuthContext);
   const isLoggedIn = authCtx.isLoggedIn;
+  const authCtx = useContext(AuthContext);
+
+  const logoutHandler = () => {
+    authCtx.logout();
+    // 페이지 리다이렉트
+  };
 
   return (
     <header className={classes.header}>
@@ -26,7 +31,7 @@ const MainNavigation = () => {
                 <Link to="/profile">Profile</Link>
               </li>
               <li>
-                <button>Logout</button>
+                <button onClick={logoutHandler}>Logout</button>
               </li>
             </>
           )}
