@@ -1,3 +1,4 @@
+import Head from "next/head";
 import MeetupList from "../components/meetups/MeetupList";
 
 const DUMMY_MEETUPS = [
@@ -20,7 +21,15 @@ const DUMMY_MEETUPS = [
 ];
 
 const HomePage = (props) => {
-  return <MeetupList meetups={props.meetups} />;
+  return (
+    <>
+      <Head>
+        <title>미팅 목록 사이트</title>
+        <meta name="description" content="미팅 목록들이 모여있는 사이트에요." />
+      </Head>
+      <MeetupList meetups={props.meetups} />;
+    </>
+  );
 };
 
 // export async function getServerSideProps(context) {
