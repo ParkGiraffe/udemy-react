@@ -30,7 +30,7 @@ export async function getStaticPaths() {
       },
       {
         params: {
-          meetupId: "m1",
+          meetupId: "m2",
         },
       },
     ],
