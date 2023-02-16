@@ -34,5 +34,6 @@ let people: {
 }[];
 
 // Type inference
-let course = 'React - The complete Guide';
-// course = 12341;
+// union
+let course: string | number | string[] | boolean = "React - The complete Guide";
+course = 12341;
