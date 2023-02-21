@@ -18,10 +18,12 @@ isInstructor = true;
 let hobbies: string[];
 hobbies = ["soccer", "guitar", "music"];
 
-let person: {
+type Person = {
   name: string;
   age: number;
 };
+
+let person: Person;
 
 person = {
   name: "park",
