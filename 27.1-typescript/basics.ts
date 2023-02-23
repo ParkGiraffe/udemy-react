@@ -39,3 +39,12 @@ let people: {
 // union
 let course: string | number | string[] | boolean = "React - The complete Guide";
 course = 12341;
+
+// Functions & types
+function add(a: number, b: number) {
+  return a + b;
+} // type inference -> number
+
+function print(value: any) {
+  console.log(value);
+} // void
