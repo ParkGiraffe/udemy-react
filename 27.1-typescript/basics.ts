@@ -48,3 +48,18 @@ function add(a: number, b: number) {
 function print(value: any) {
   console.log(value);
 } // void
+
+
+// Generic
+function insterAtBeginning<T> (array: T[], value: T) {
+  const newArray = [value, ...array];
+  return newArray;
+}
+
+const demoArray = [1, 2, 3];
+const updatedArray = insterAtBeginning(demoArray, -1) // [-1, 1, 2, 3]
+
+
+
+const stringArray = insterAtBeginning(['a', 'b'], '0');
+stringArray[0].split(' '); 
