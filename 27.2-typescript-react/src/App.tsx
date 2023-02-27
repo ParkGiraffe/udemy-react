@@ -1,9 +1,9 @@
-import Todos from './components/Todos';
+import Todos from "./components/Todos";
 
 function App() {
   return (
     <div>
-      <Todos />
+      <Todos items={["Learn React", "Park Giraffe"]} />
     </div>
   );
 }
